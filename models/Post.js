@@ -4,6 +4,10 @@ const postsCollection = require('../db').db().collection("posts");
 const followsCollection = require('../db').db().collection("follows");
 const User = require('./User')
 
+postsCollection.createIndex({ title: "text", body: "text" })
+  .then(() => console.log("Text index created"))
+  .catch(err => console.error("Error creating text index", err));
+
 let Post = function(data, userId, requestedPostId){
     this.data = data
     this.errors = []

@@ -28,7 +28,7 @@ export default class Search{
     // 3.methods
     keyPressHandler(){
         // take the value
-        let value = this.inputField.value
+        let value = this.inputField.value;
 
         if(value == ""){
             clearTimeout(this.typingWaitTimer)
@@ -48,7 +48,7 @@ export default class Search{
 
     sendRequest(){
         axios.post('/search',{searchTerm: this.inputField.value}).then((res)=>{
-            console.log(res)
+            // console.log(res)
             this.renderResults(res.data)
         }).catch(()=>{
             alert("Hello, the request failed!!")
