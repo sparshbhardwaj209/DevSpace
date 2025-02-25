@@ -5,6 +5,7 @@ exports.viewCreatePage = (req,res)=>{
 }
 
 exports.createPost = (req, res) => {
+    console.log("Session User:", req.session.user);
     let post = new Post(req.body, req.session.user._id)
     post.createPost().then((newId)=>{
         req.session.save(()=>res.redirect(`/post/${newId}`))
@@ -15,9 +16,7 @@ exports.createPost = (req, res) => {
 
 exports.viewSingle = async (req, res)=>{
     try{
-        console.log("hrr")
         let post = await Post.findSingleById(req.params.id, req.visitorId)
-        // console.log("post",post)
         res.render('single-post-screen', {post: post})
     }catch{
         res.render('404')
@@ -51,8 +50,6 @@ exports.edit = async (req, res) => {
             req.session.save(()=>res.redirect(`/post/${req.params.id}/edit`))
         }
     }).catch(()=>{
-        // a post with the requested i doesn't exist
-        // or if the visitor is not owner
         req.flash('errors', "You do not have permission to peform that action")
         req.session.save(()=>res.redirect('/'))
     })
@@ -70,9 +67,7 @@ exports.delete = function(req, res){
 }
 
 exports.search = async (req, res)=>{
-    // console.log(req.body.searchTerm)
     Post.search(req.body.searchTerm).then(posts => {
-        // console.log(posts)
         res.json(posts)
     }).catch(()=>{
         res.json([])

@@ -4,6 +4,8 @@ const router = express.Router();
 const userController = require('./controller/userController');
 const postController = require('./controller/postController');
 const followController = require('./controller/followController');
+const searchController = require('./controller/searchController')
+
 
 const isAuth = require('./middleware/is-auth');
 
@@ -27,7 +29,10 @@ router.get('/post/:id/edit', isAuth.isAuthenticated, postController.viewEditScre
 router.post('/post/:id/edit', isAuth.isAuthenticated, postController.edit)
 // task- delete feature
 router.post('/post/:id/delete', isAuth.isAuthenticated, postController.delete)
-router.post('/search', postController.search)
+// router.post('/search', postController.search)
+// router.post('/search-user', userController.searchUsers)
+
+router.post('/search', searchController.combinedSearch)
 
 //follow related routes
 router.post('/addFollow/:username', isAuth.isAuthenticated, followController.addFollow)

@@ -13,6 +13,9 @@ let Post = function(data, userId, requestedPostId){
     this.errors = []
     this.userId = userId
     this.requestedPostId = requestedPostId
+    if (!userId) {
+        this.errors.push("User ID is required to create a post.");
+    }
 }
 
 Post.prototype.cleanUp = function(){
@@ -93,7 +96,7 @@ Post.findSingleById = function(id, visitorId){
 
         // let post = await postsCollection.findOne({_id: new ObjectID(id)})
         if(posts.length){
-            console.log(posts[0])
+            // console.log(posts[0])
             resolve(posts[0])
         }else{
             reject()
@@ -104,7 +107,7 @@ Post.findSingleById = function(id, visitorId){
 Post.findByAuthorId = function(authorId){
     return new Promise(async (resolve, reject)=>{
         let posts = await postsCollection.find({author: new ObjectID(authorId)}).toArray();
-        console.log(posts)
+        // console.log(posts)
         resolve(posts)
     })
 }
